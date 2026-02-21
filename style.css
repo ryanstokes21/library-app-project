@@ -1,0 +1,69 @@
+body {
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.book-card {
+  width: 120px;
+  height: 180px;
+  background: linear-gradient(to right, #8B4513 30%, #A0522D 70%);
+  border-radius: 6px 12px 12px 6px;
+  box-shadow: 4px 6px 12px rgba(0,0,0,0.5);
+  transform: rotate(-2deg);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;           /* important for absolute positioning */
+  overflow: hidden;             /* prevents text bleed */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px 10px;
+  color: white;
+  font-family: 'Georgia', serif;
+}
+
+.book-card:hover {
+  transform: rotate(0deg) scale(1.08);
+  z-index: 10;
+}
+
+/* Title – most important, allow 2–3 lines */
+.book-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 1%;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Author – smaller, italic */
+.book-author {
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 1%;
+  opacity: 0.9;
+  overflow: hidden;
+}
+
+/* Pages – smallest, subtle */
+.book-pages {
+  font-size: 0.8rem;
+  margin: 4px 0 0;
+  opacity: 0.85;
+}
+
+/* Status – bottom badge or big indicator */
+.book-status {
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 4px 0;
+  background: rgba(0,0,0,0.25);
+  border-radius: 4px;
+  margin-top: auto;   /* pushes to bottom */
+}
