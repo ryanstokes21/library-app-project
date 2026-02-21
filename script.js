@@ -52,7 +52,7 @@ function createBookCards(book) {
 
   const bookStatus = document.createElement('p');
   bookStatus.classList.add('book-status');
-  bookStatus.textContent = book.isChecked();
+  bookStatus.textContent = book.isChecked(); //change true/false to read/not read string
   bookCard.appendChild(bookStatus);
 
   el.container.appendChild(bookCard);
@@ -79,6 +79,9 @@ el.form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   const status = document.getElementById('status');
+  const title = document.getElementById('title');
+  const author = document.getElementById('author');
+  const pages = document.getElementById('pages');
 
   const titleInput = title.value.trim();
   const authorInput = author.value.trim();
