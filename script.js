@@ -59,6 +59,12 @@ function createBookCards(book) {
 
   bookStatus.classList.add(book.status ? 'read' : 'not-read')
   bookCard.appendChild(bookStatus);
+  
+  const deleteBtn = document.createElement('span');
+  deleteBtn.classList.add('delete-book');
+  deleteBtn.textContent = 'X';
+  deleteBtn.dataset.id = book.id;
+  bookCard.appendChild(deleteBtn);
   el.container.appendChild(bookCard);
 }
 
@@ -111,5 +117,13 @@ el.container.addEventListener('click', (e) => {
       bookStatus.classList.toggle('read', book.status);
       bookStatus.classList.toggle('not-read', !book.status);
     }
+  } else if(e.target.classList.contains('delete-book')) {
+    const deleteEl = e.target;
+    const bookId = deleteEl.dataset.id;
+    const index = myLibrary.findIndex(b => b.id === bookId);
+    if(index !== -1) {
+      myLibrary.splice(index, 1);
+    }
+    renderBooks();
   }
 })
