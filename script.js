@@ -15,12 +15,14 @@ function Book(title, author, pages, status) {
   this.author = author;
   this.pages = pages;
   this.status = status;
-
-  return title, author, pages, status
 }
 
-Book.prototype.isChecked = function () {
+Book.prototype.isRead = function () {
   return this.status ? 'read' : 'not read'; 
+}
+
+Book.prototype.toggleRead = function() {
+  this.status = !this.status;
 }
 
 function addToLibrary(title, author, pages, status) {
@@ -33,6 +35,7 @@ function addToLibrary(title, author, pages, status) {
 function createBookCards(book) {
   //create card structure
   const bookCard = document.createElement('div');
+  bookCard.dataset.id = book.id;
   bookCard.classList.add('book-card');
 
   const bookTitle = document.createElement('h3');
@@ -47,19 +50,20 @@ function createBookCards(book) {
 
   const bookPages = document.createElement('p');
   bookPages.classList.add('book-pages')
-  bookPages.textContent = book.pages;
+  bookPages.textContent = `${book.pages} pages`;
   bookCard.appendChild(bookPages);
 
   const bookStatus = document.createElement('p');
   bookStatus.classList.add('book-status');
-  bookStatus.textContent = book.isChecked(); //change true/false to read/not read string
-  bookCard.appendChild(bookStatus);
+  bookStatus.textContent = book.isRead(); //change true/false to read/not read string
 
+  bookStatus.classList.add(book.status ? 'read' : 'not-read')
+  bookCard.appendChild(bookStatus);
   el.container.appendChild(bookCard);
 }
 
 function renderBooks() {
-  //Loop though the array to display the books
+  //Loop through the array to display the books
   el.container.innerHTML = '';
 
   myLibrary.forEach(book => {
@@ -94,3 +98,18 @@ el.form.addEventListener('submit', (e) => {
   renderBooks();
 })
 
+el.container.addEventListener('click', (e) => {
+  if(e.target.classList.contains('book-status')) {
+    const bookStatus = e.target;
+    const bookCard = bookStatus.closest('.book-card');
+    const bookId = bookCard.dataset.id;
+    const book = myLibrary.find(b => b.id === bookId)
+    
+    if(book) {
+      book.toggleRead();
+      bookStatus.textContent = book.isRead();
+      bookStatus.classList.toggle('read', book.status);
+      bookStatus.classList.toggle('not-read', !book.status);
+    }
+  }
+})
