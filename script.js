@@ -3,6 +3,9 @@ const myLibrary = [];
 const el = {
   container: document.querySelector('.container'),
   bookBtn: document.querySelector('.add-book'),
+  dialog: document.getElementById('add-book-dialog'),
+  form: document.querySelector('form'),
+  cancelBtn: document.getElementById('cancel-btn'),
 }
 
 function Book(title, author, pages, status) {
@@ -13,7 +16,11 @@ function Book(title, author, pages, status) {
   this.pages = pages;
   this.status = status;
 
-  return { title, author, pages, status }
+  return title, author, pages, status
+}
+
+Book.prototype.isChecked = function () {
+  return this.status ? 'read' : 'not read'; 
 }
 
 function addToLibrary(title, author, pages, status) {
@@ -23,11 +30,8 @@ function addToLibrary(title, author, pages, status) {
   myLibrary.push(newBook);
 }
 
-addToLibrary('Atomic Habits', 'James Clear', '320 pages', 'not read');
-
-addToLibrary('Rich Dad Poor Dad', 'Robert T. Kiyosaki', '194 pages', 'not read');
-
 function createBookCards(book) {
+  //create card structure
   const bookCard = document.createElement('div');
   bookCard.classList.add('book-card');
 
@@ -48,7 +52,7 @@ function createBookCards(book) {
 
   const bookStatus = document.createElement('p');
   bookStatus.classList.add('book-status');
-  bookStatus.textContent = book.status;
+  bookStatus.textContent = book.isChecked();
   bookCard.appendChild(bookStatus);
 
   el.container.appendChild(bookCard);
@@ -56,9 +60,34 @@ function createBookCards(book) {
 
 function renderBooks() {
   //Loop though the array to display the books
+  el.container.innerHTML = '';
+
   myLibrary.forEach(book => {
     createBookCards(book);
   })
 }
 
-renderBooks();
+el.bookBtn.addEventListener('click', () => {
+  el.dialog.showModal();
+});
+
+el.cancelBtn.addEventListener('click', () => {
+  el.dialog.close();
+});
+
+el.form.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  const status = document.getElementById('status');
+
+  const titleInput = title.value.trim();
+  const authorInput = author.value.trim();
+  const pagesInput = Number(pages.value);
+  const statusInput = status.checked;
+  
+  addToLibrary(titleInput, authorInput, pagesInput, statusInput);
+  el.dialog.close();
+  el.form.reset();
+  renderBooks();
+})
+
